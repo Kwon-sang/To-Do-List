@@ -25,11 +25,11 @@
             </thead>
 
             <tbody>
-            <tr th:each="item : ${todoItems}">
+            <tr th:each="item : ${todoItems}" th:class="${item.complete} ? success : warning">
                 <td>
                     <div class="btn-group-sm" role="checkbox">
-                        <a class="btn-info" th:href="@{/edit/{id}(id=${item.id})}">Edit</a>
-                        <a class="btn-danger" th:href="@{/delete/{id}(id=${item.id})}">Delete</a>
+                        <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">Edit</a>
+                        <a class="btn btn-danger" th:href="@{/delete/{id}(id=${item.id})}">Delete</a>
                     </div>
                 </td>
                 <td th:text="${item.id}">item_id</td>
@@ -39,8 +39,9 @@
                 <td th:text="${item.modifiedDate}">item_modifiedDate</td>
             </tr>
             </tbody>
-
         </table>
+
+        <p><a class="btn btn-success" href="/create-todo">Add a Todo!</a> </p>
 
     </div>
 

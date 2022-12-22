@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.time.Instant;
+import java.time.ZoneId;
 
 @Controller
 public class TodoItemController {
@@ -30,7 +32,20 @@ public class TodoItemController {
         logger.debug( "request to GET index");
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("todoItems", todoItemRepository.findAll());
+        modelAndView.addObject("today", Instant.now().atZone(ZoneId.systemDefault()).toLocalDateTime().getDayOfWeek());
         return modelAndView;
+    }
+
+    @PostMapping("/todo")
+    public String createTodoItem(@Valid TodoItem todoItem, Errors errors) {
+        if (errors.hasErrors()) {
+            return "add-todo-item";
+        }
+
+        todoItem.setCreatedDate(Instant.now());
+        todoItem.setModifiedDate(Instant.now());
+        todoItemRepository.save(todoItem);
+        return "redirect:/";
     }
 
     @PostMapping("/todo/{id}")
