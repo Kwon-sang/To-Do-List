@@ -12,36 +12,38 @@
         <h1 class="text-center">Todo List</h1>
         <hr/>
 
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped text-center">
             <thead>
             <tr>
                 <th>Action</th>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Complete</th>
-                <th>Created Date</th>
-                <th>Modified Date</th>
+                <th>게시글 번호</th>
+                <th>오늘 할 일</th>
+                <th>완료 여부</th>
+                <th>작성일</th>
+                <th>수정일</th>
             </tr>
             </thead>
 
             <tbody>
-            <tr th:each="item : ${todoItems}" th:class="${item.complete} ? success : warning">
+            <tr th:each="item : ${todoItems}" th:class="${item.complete} ? light : warning">
                 <td>
                     <div class="btn-group-sm" role="checkbox">
-                        <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">Edit</a>
-                        <a class="btn btn-danger" th:href="@{/delete/{id}(id=${item.id})}">Delete</a>
+                        <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">수정</a>
+                        <a class="btn btn-danger" th:href="@{/delete/{id}(id=${item.id})}">삭제</a>
                     </div>
                 </td>
                 <td th:text="${item.id}">item_id</td>
                 <td th:text="${item.description}">item_description</td>
-                <td th:text="${item.complete}">item_complete</td>
+                <td>
+                    <span th:if="${item.complete} == true" >완료</span>
+                    <span th:if="${item.complete} == false">진행 중</span>
+                </td>
                 <td th:text="${item.createdDate}">item_createDate</td>
                 <td th:text="${item.modifiedDate}">item_modifiedDate</td>
             </tr>
             </tbody>
         </table>
-
-        <p><a class="btn btn-success" href="/create-todo">Add a Todo!</a> </p>
+        <p><a class="btn btn-success" href="/create-todo">할 일 추가하기</a> </p>
 
     </div>
 
